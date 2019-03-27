@@ -23,10 +23,10 @@
 #define ALWAYS_INLINE inline __attribute__((always_inline))
 #define NOINLINE __attribute__((noinline))
 #define PACKED __attribute__((packed))
-#define CACHE_ALIGNED __attribute__ ((aligned (CACHELINE_SIZE)))
+#define CACHE_ALIGNED __attribute__((aligned(CACHELINE_SIZE)))
 
 /* silence warnings about void const */
-#define VOIDPTR(ptr) \
-	(void *)(uintptr_t)(ptr)
+#define VOIDPTR(ptr)\
+    (void *)(uintptr_t)(ptr)
 
 #endif /* COMMON_H */

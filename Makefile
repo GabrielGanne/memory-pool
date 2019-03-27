@@ -90,6 +90,10 @@ syntax:
 	$(foreach file, $(SOURCES), \
 			clang -Weverything $(CPPFLAGS) $(CFLAGS) -fsyntax-only $(file);)
 
+.PHONY: fixstyle
+fixstyle: devtools/uncrustify.cfg
+	uncrustify -c $^ -l C --replace $(SOURCES) $(HEADERS)
+
 .PHONY: install
 install:
 	@mkdir -p $(PREFIX)/include $(PREFIX)/lib
@@ -119,6 +123,7 @@ help:
 	@echo "test                    - run tests"
 	@echo "check                   - run static checks and functionnal tests"
 	@echo "install                 - install to $(PREFIX)"
+	@echo "fixstyle                - fix coding style"
 	@echo
 	@echo "# Config:"
 	@echo "LOG2_CPU_CACHELINE_SIZE = $(CONFIG_LOG2_CPU_CACHELINE_SIZE)"

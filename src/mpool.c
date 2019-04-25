@@ -214,8 +214,7 @@ mpool_alloc(size_t size, int flags)
     cache = &pool_cache[pool_index];
 
     if (cache->num_free == 0) {
-        if (unlikely(mpool_fill_cache(cache, &pool_glob.pools[pool_index]) !=
-                    0))
+        if (unlikely(mpool_fill_cache(cache, &pool_glob.pools[pool_index])))
             return NULL;
 
         assert(cache->num_free != 0);

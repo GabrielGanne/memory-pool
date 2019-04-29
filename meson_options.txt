@@ -1,0 +1,4 @@
+option('tests', type: 'boolean', value: true,
+        description: 'build unit tests')
+option('memcheck', type: 'boolean', value: false,
+        description: 'enable valgrind/memcheck support')

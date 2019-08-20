@@ -125,6 +125,7 @@ extern void free(void * ptr)
 
 extern void * realloc(void * ptr, size_t size)
 {
+    void * new_ptr;
     uint16_t old_length;
     struct memhdr * hdr;
 
@@ -143,18 +144,21 @@ extern void * realloc(void * ptr, size_t size)
 
     old_length = hdr->length;
     hdr->guard = 0x0000;
-    size += sizeof(*hdr);
 
-    hdr = mpool_realloc(hdr, old_length, size, 0);
+    hdr = mpool_realloc(hdr, old_length, size + sizeof(*hdr), 0);
     if (hdr == NULL) {
         mpool_free(ptr, old_length);
-        return malloc(size);
+        new_ptr = __libc_malloc(size);
+        if (likely(new_ptr != NULL))
+            memcpy(new_ptr, ptr, old_length);
+
+        return new_ptr;
     }
 
     stats.num_mpool_realloc++;
     *hdr = (struct memhdr) {
         .guard = GUARD,
-        .length = (uint16_t) size,
+        .length = (uint16_t) size + sizeof(*hdr),
     };
 
     return hdr + 1;

@@ -133,6 +133,7 @@ help:
 	@echo "CC                      = $(CC)"
 	@echo "PREFIX                  = $(PREFIX)"
 	@echo "DEBUG                   = $(DEBUG)"
+	@echo "MEMCHECK                = $(MEMCHECK)"
 	@echo "ASAN                    = $(ASAN)"
 	@echo "TSAN                    = $(TSAN)"
 

@@ -9,6 +9,7 @@
 libmpool.so
 test_mpool
 test_mthread_mpool
+test_system_allocs
 
 # check generated objects
 *.log

@@ -24,14 +24,24 @@ ALL_TEST_OBJECTS += $(TEST_OBJECTS_MPOOL_OVERLOAD)
 test_mpool_overload.so: $(OBJECTS) $(TEST_OBJECTS_MPOOL_OVERLOAD)
 	$(CC) -shared -fPIC $(CFLAGS) -ldl $(LDFLAGS) -o $@ $^
 
+TEST_SOURCES_SYSTEM_ALLOCS = test/test_system_allocs.c
+TEST_OBJECTS_SYSTEM_ALLOCS = $(TEST_SOURCES_SYSTEM_ALLOCS:.c=.o)
+ALL_TEST_OBJECTS += $(TEST_OBJECTS_SYSTEM_ALLOCS)
+
+.INTERMEDIATE: $(TEST_OBJECTS_SYSTEM_ALLOCS)
+test_system_allocs: $(TEST_OBJECTS_SYSTEM_ALLOCS) $(TEST_HEADERS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
+
 ALL_TESTS = \
 	test_mpool \
 	test_mthread_mpool
 
 TEST_MPOOL_OVERLOAD = test_mpool_overload.so
+TEST_SYSTEM_ALLOCS = test_system_allocs
 
 .PHONY: test_clean
 test_clean:
 	-@rm -vf $(ALL_TESTS)
 	-@rm -vf $(ALL_TEST_OBJECTS)
 	-@rm -vf $(TEST_MPOOL_OVERLOAD)
+	-@rm -vf $(TEST_SYSTEM_ALLOCS)

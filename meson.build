@@ -101,14 +101,14 @@ endif # codespell
 
 if get_option('tests')
     simple = executable('test_pool',
-            'test/test_mpool.c',
+            files('test/test_mpool.c'),
             include_directories : include_directories('src', 'test'),
             link_with : mpool)
 
     test('simple mpool test', simple)
 
     mthread = executable('test_mthread_mpool',
-            'test/test_mthread_mpool.c',
+            files('test/test_mthread_mpool.c'),
             link_with : mpool,
             include_directories : include_directories('src', 'test'),
             dependencies : libthread
@@ -117,9 +117,14 @@ if get_option('tests')
 
     libdl = cc.find_library('dl', required : true)
     mpool_overload = shared_library('test_mpool_overload',
-            'test/test_mpool_overload.c',
+            files('test/test_mpool_overload.c'),
             link_with : mpool,
             include_directories : include_directories('src', 'test'),
             dependencies : libdl
+    )
+
+    system_alloc = executable('system-alloc',
+            files('test/test_system_allocs.c'),
+            include_directories : include_directories('src', 'test'),
     )
 endif # tests

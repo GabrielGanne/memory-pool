@@ -107,7 +107,7 @@ uninstall:
 
 include test/test.mk
 .PHONY: test
-test: $(ALL_TESTS) $(TEST_MPOOL_OVERLOAD)
+test: $(ALL_TESTS) $(TEST_MPOOL_OVERLOAD) $(TEST_SYSTEM_ALLOCS)
 	$(foreach test_sample, $(ALL_TESTS), \
 			LD_LIBRARY_PATH=$(TOPDIR) $(TOPDIR)/$(test_sample) || exit 1;)
 

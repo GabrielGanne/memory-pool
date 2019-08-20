@@ -208,7 +208,7 @@ mpool_alloc(size_t size, int flags)
     (void) flags; /* for later user */
 
     pool_index = mpool_get_pool_index(size);
-    if (unlikely(pool_index == NUM_POOLS))
+    if (unlikely(pool_index >= NUM_POOLS))
         return NULL;
 
     cache = &pool_cache[pool_index];

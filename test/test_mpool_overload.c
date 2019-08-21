@@ -54,12 +54,17 @@ alloc_overload_init(void)
         exit(EXIT_FAILURE);
     }
 
+    fprintf(stderr, "arena(%zu) = (%p -> %p)\n",
+            arena_size, arena, (char*)arena + arena_size);
+
     alloc_overload_done = 1;
 }
 
 static void __attribute__((destructor))
 alloc_overload_cleanup(void)
 {
+    alloc_overload_done = 0;
+
     mpool_stats();
     printf("\n");
     printf("mpool_alloc:   %ld\n", stats.num_mpool_alloc);

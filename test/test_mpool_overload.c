@@ -125,6 +125,7 @@ extern void free(void * ptr)
     }
 
     stats.num_mpool_free++;
+    hdr->guard = 0x0000;
     mpool_free(hdr, hdr->length);
 }
 

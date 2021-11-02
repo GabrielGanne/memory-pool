@@ -81,14 +81,17 @@ alloc_overload_cleanup(void)
     munmap(arena, arena_size);
 }
 
-extern void * malloc(size_t size)
+static ALWAYS_INLINE
+void * _malloc_inline(size_t size)
 {
     struct memhdr * result;
 
+    fprintf(stderr, "%s: called\n", __func__);
     if (unlikely(!alloc_overload_done))
         return __libc_malloc(size);
 
     size += sizeof(struct memhdr);
+
 
     result = mpool_alloc(size, 0);
     if (result == NULL) {
@@ -103,6 +106,11 @@ extern void * malloc(size_t size)
 
     stats.num_mpool_alloc++;
     return result + 1;
+}
+
+extern void * malloc(size_t size)
+{
+    return _malloc_inline(size);
 }
 
 extern void free(void * ptr)
@@ -139,12 +147,11 @@ extern void * realloc(void * ptr, size_t size)
         return __libc_realloc(ptr, size);
 
     if (ptr == NULL)
-        return malloc(size);
+        return _malloc_inline(size);
 
     hdr = (struct memhdr *) ptr - 1;
     if (unlikely(hdr->guard != GUARD)) {
         stats.num_sys_realloc++;
-        printf("%s:%d - sys_realloc(%p, %zu)\n", __func__, __LINE__, ptr, size);
         return __libc_realloc(ptr, size);
     }
 
@@ -182,7 +189,7 @@ extern void* calloc(size_t nmemb, size_t size)
     if (size == 0)
         return NULL;
 
-    ptr = malloc(size);
+    ptr = _malloc_inline(size);
     if (ptr != NULL)
         memset(ptr, 0, size);
 

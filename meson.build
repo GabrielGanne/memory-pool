@@ -9,7 +9,7 @@ project('memory-pool', 'c',
         meson_version: '>= 0.47',
 )
 
-# follow semantic versionning (https://semver.org)
+# follow semantic versioning (https://semver.org)
 major = '0' # incompatible API changes
 minor = '1' # add backwards-compatible functionality
 patch = '0' # backwards-compatible bug fixes

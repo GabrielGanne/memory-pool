@@ -141,6 +141,7 @@ extern void * realloc(void * ptr, size_t size)
     void * new_ptr;
     uint16_t old_length;
     struct memhdr * hdr;
+    struct memhdr * new_hdr;
 
     if (unlikely(!alloc_overload_done))
         return __libc_realloc(ptr, size);
@@ -157,8 +158,8 @@ extern void * realloc(void * ptr, size_t size)
     old_length = hdr->length;
     hdr->guard = 0x0000;
 
-    hdr = mpool_realloc(hdr, old_length, size + sizeof(*hdr), 0);
-    if (hdr == NULL) {
+    new_hdr = mpool_realloc(hdr, old_length, size + sizeof(*hdr), 0);
+    if (new_hdr == NULL) {
         mpool_free(ptr, old_length);
         new_ptr = __libc_malloc(size);
         if (likely(new_ptr != NULL))
@@ -168,12 +169,12 @@ extern void * realloc(void * ptr, size_t size)
     }
 
     stats.num_mpool_realloc++;
-    *hdr = (struct memhdr) {
+    *new_hdr = (struct memhdr) {
         .guard = GUARD,
-        .length = (uint16_t) size + sizeof(*hdr),
+        .length = (uint16_t) size + sizeof(*new_hdr),
     };
 
-    return hdr + 1;
+    return new_hdr + 1;
 }
 
 extern void* calloc(size_t nmemb, size_t size)

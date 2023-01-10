@@ -86,7 +86,6 @@ void * _malloc_inline(size_t size)
 {
     struct memhdr * result;
 
-    fprintf(stderr, "%s: called\n", __func__);
     if (unlikely(!alloc_overload_done))
         return __libc_malloc(size);
 

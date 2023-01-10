@@ -121,7 +121,7 @@ help:
 	@echo "clean                   - clean"
 	@echo "syntax                  - run static analyzer"
 	@echo "test                    - run tests"
-	@echo "check                   - run static checks and functionnal tests"
+	@echo "check                   - run static checks and functional tests"
 	@echo "install                 - install to $(PREFIX)"
 	@echo "fixstyle                - fix coding style"
 	@echo
@@ -129,7 +129,7 @@ help:
 	@echo "LOG2_CPU_CACHELINE_SIZE = $(CONFIG_LOG2_CPU_CACHELINE_SIZE)"
 	@echo "LOG2_CPU_PAGE_SIZE      = $(CONFIG_LOG2_CPU_PAGE_SIZE)"
 	@echo
-	@echo "# Environement:"
+	@echo "# Environment:"
 	@echo "CC                      = $(CC)"
 	@echo "PREFIX                  = $(PREFIX)"
 	@echo "DEBUG                   = $(DEBUG)"

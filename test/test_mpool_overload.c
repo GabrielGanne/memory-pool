@@ -160,11 +160,12 @@ extern void * realloc(void * ptr, size_t size)
 
     new_hdr = mpool_realloc(hdr, old_length, size + sizeof(*hdr), 0);
     if (new_hdr == NULL) {
-        mpool_free(ptr, old_length);
         new_ptr = __libc_malloc(size);
-        if (likely(new_ptr != NULL))
-            memcpy(new_ptr, ptr, old_length);
+        if (unlikely(new_ptr == NULL))
+            return NULL;
 
+        memcpy(new_ptr, ptr, old_length);
+        mpool_free(ptr, old_length);
         return new_ptr;
     }
 

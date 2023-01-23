@@ -43,6 +43,7 @@ all_tests_sources = files(
     'test/test_mpool.c',
     'test/test_mthread_mpool.c',
     'test/test_mpool_overload.c',
+    'test/xmalloc-test.c',
 )
 
 libthread = dependency('threads')
@@ -126,5 +127,12 @@ if get_option('tests')
     system_alloc = executable('system-alloc',
             files('test/test_system_allocs.c'),
             include_directories : include_directories('src', 'test'),
+    )
+
+    xmalloc_test = executable('xmalloc-test',
+            files('test/xmalloc-test.c'),
+            include_directories : include_directories('src', 'test'),
+            link_with : mpool,
+            dependencies : libthread
     )
 endif # tests
